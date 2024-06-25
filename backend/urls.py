@@ -13,6 +13,8 @@ router.register(r'Sede', views.SedeView, 'Sede')
 router.register(r'Edificio', views.EdificioView, 'Edificio')
 router.register(r'Local', views.LocalView, 'Local')
 router.register(r'Reservacion', views.ReservacionView, 'Reservacion')
+router.register(r'CriterioConstructivo', views.CriterioConstructivoView, 'CriterioConstructivo')
+router.register(r'Evaluacion', views.EvaluacionView, 'Evaluacion')
 router.register(r"Extras", views.Extras, "Extras")
 
 urlpatterns = [

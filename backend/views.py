@@ -31,13 +31,22 @@ class LocalView(viewsets.ModelViewSet):
     serializer_class = LocalSerializer
     queryset = Local.objects.all()
     filter_backends =[DjangoFilterBackend]
-    filterset_fields = ["nombre", "sede_pertenece", "edificio_pertenece", "funcion", "estado_constructivo"]
+    filterset_fields = ["nombre", "sede_pertenece", "edificio_pertenece", "funcion"]
     
 class ReservacionView(viewsets.ModelViewSet):
     serializer_class = ReservacionSerializer
     queryset = Reservacion.objects.all()
 
-    
+class EvaluacionView(viewsets.ModelViewSet):
+    serializer_class = EvaluacionSerializer
+    queryset = Evaluacion.objects.all()
+    filter_backends =[DjangoFilterBackend]
+    filterset_fields = ["local", "fecha", "nota"]
+
+class CriterioConstructivoView(viewsets.ModelViewSet):
+    serializer_class = CriterioConstructivoSerializer
+    queryset = CriterioConstructivo.objects.all()
+
              
 class Extras(viewsets.ViewSet):
 
@@ -84,10 +93,19 @@ class Extras(viewsets.ViewSet):
         for local in locales:
             sublocales = local.sublocales.all()
             sublocales_data = self.get_local_data(sublocales)
+            evaluaciones = Evaluacion.objects.filter(local=local.id)
+            evaluaciones_data = []
+            for evaluacion in evaluaciones:
+                evaluaciones_data.append({
+                    "nombre": evaluacion.criterio.nombre,
+                    "fecha": evaluacion.fecha,
+                    "nota": evaluacion.get_nota_display(),
+                    "observaciones": evaluacion.observaciones
+                })
             local_data.append({
                 "id_local": local.id,
                 "nombre_local": local.nombre,
-                "estado_constructivo": local.estado_constructivo,
+                "criterios_constructivos": evaluaciones_data,
                 "sublocales": sublocales_data
             })
 

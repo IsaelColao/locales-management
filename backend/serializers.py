@@ -37,3 +37,13 @@ class ReservacionSerializer(serializers.ModelSerializer):
     class Meta:
         model = Reservacion
         fields = '__all__'
+
+class CriterioConstructivoSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = CriterioConstructivo
+        fields = '__all__'
+
+class EvaluacionSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Evaluacion
+        fields = '__all__'

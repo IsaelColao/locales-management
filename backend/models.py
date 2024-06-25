@@ -50,6 +50,13 @@ class Edificio (models.Model):
     def __str__(self):
         return self.nombre
 
+class CriterioConstructivo(models.Model):
+    nombre = models.CharField(max_length=100)
+    nombre_corto = models.CharField(max_length=15, blank=True, null=True)
+
+    def __str__(self):
+        return self.nombre
+
 class Local (models.Model):
     id = models.AutoField(primary_key=True)
     sede_pertenece = models.ForeignKey(Sede, on_delete = models.PROTECT, related_name="sede_local")
@@ -57,20 +64,40 @@ class Local (models.Model):
     nivel_pertenece = models.IntegerField()
     local_pertenece = models.ForeignKey('self', on_delete=models.CASCADE, null=True, blank=True, related_name="sublocales")
     nombre = models.CharField(max_length=100)
+    nombre_corto = models.CharField(max_length=10, blank=True, null=True)
     codigo = models.CharField(max_length=100)
     funcion = models.CharField(max_length=100)
     tipo = models.CharField(max_length=100)
     area_responsab = models.ForeignKey(AreaResponsabilidad, on_delete = models.PROTECT)
-    estado_constructivo = models.CharField(max_length=100)
-    observaciones = models.TextField(null=True, blank=True)
+    criterios_constructivos = models.ManyToManyField(CriterioConstructivo, through="Evaluacion")
+    # observaciones = models.TextField(null=True, blank=True)
     reservable = models.BooleanField()
-    largo = models.FloatField(null=True)
-    ancho = models.FloatField(null=True)
-    alto = models.FloatField(null=True)
+    largo = models.FloatField(null=True, blank=True)
+    ancho = models.FloatField(null=True, blank=True)
+    alto = models.FloatField(null=True, blank=True)
     
     def __str__(self):
         return self.nombre
     
+class Evaluacion(models.Model):
+    NOTAS = {
+        "B": "Bien",
+        "R": "Regular",
+        "M": "Mal",
+    }
+
+    local = models.ForeignKey(Local, on_delete=models.PROTECT)
+    criterio = models.ForeignKey(CriterioConstructivo, on_delete=models.PROTECT)
+    fecha = models.DateField()
+    nota = models.CharField(max_length=1, choices=NOTAS, default="R")
+    observaciones = models.TextField(null=True, blank=True)
+
+    class Meta:
+        unique_together = ("local", "criterio", "fecha")
+        verbose_name_plural = "Evaluaciones"
+    
+    def __str__(self):
+        return f"{self.local.nombre} - {self.fecha}"
     
 class Reservacion (models.Model):
     id = models.AutoField(primary_key=True)
