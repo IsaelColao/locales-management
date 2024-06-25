@@ -7,6 +7,9 @@ class Responsable (models.Model):
     nombre = models.CharField(max_length=100)
     cargo = models.CharField(max_length=100, null=True, blank=True)
     carnet = models.CharField(max_length=11)
+
+    class Meta:
+        verbose_name_plural = "Responsables"
     
     def __str__(self):
         return self.nombre
@@ -15,6 +18,9 @@ class CentroCosto (models.Model):
     id = models.AutoField(primary_key=True)
     nombre = models.CharField(max_length=100)
     responsable = models.ForeignKey(Responsable, on_delete = models.PROTECT, max_length=100)
+
+    class Meta:
+        verbose_name_plural = "Centros de Costo"
     
     def __str__(self):
         return self.nombre
@@ -24,6 +30,9 @@ class AreaResponsabilidad (models.Model):
     centro_pertenece = models.ForeignKey(CentroCosto, on_delete = models.PROTECT)
     nombre = models.CharField(max_length=100)
     responsable = models.ForeignKey(Responsable, on_delete = models.PROTECT, max_length=100)
+
+    class Meta:
+        verbose_name_plural = "Áreas de Responsabilidad"
     
     def __str__(self):
         return self.nombre
@@ -35,6 +44,9 @@ class Sede (models.Model):
     director = models.CharField(max_length=100)
     direccion = models.CharField(max_length=100, null=True, blank=True)
     telefono = models.CharField(max_length=100, null=True, blank=True)
+
+    class Meta:
+        verbose_name_plural = "Sedes"
     
     def __str__(self):
         return self.nombre
@@ -46,6 +58,9 @@ class Edificio (models.Model):
     codigo = models.CharField(max_length=100)
     niveles = models.IntegerField()
     subnivel = models.BooleanField(default=False)
+
+    class Meta:
+        verbose_name_plural = "Edificios"
     
     def __str__(self):
         return self.nombre
@@ -53,6 +68,9 @@ class Edificio (models.Model):
 class CriterioConstructivo(models.Model):
     nombre = models.CharField(max_length=100)
     nombre_corto = models.CharField(max_length=15, blank=True, null=True)
+
+    class Meta:
+        verbose_name_plural = "Criterios Constructivos"
 
     def __str__(self):
         return self.nombre
@@ -75,6 +93,9 @@ class Local (models.Model):
     largo = models.FloatField(null=True, blank=True)
     ancho = models.FloatField(null=True, blank=True)
     alto = models.FloatField(null=True, blank=True)
+
+    class Meta:
+        verbose_name_plural = "Locales"
     
     def __str__(self):
         return self.nombre
@@ -107,6 +128,9 @@ class Reservacion (models.Model):
     inicio_reserva = models.DateField()
     final_reserva = models.DateField(null=False)
     uso_reserv = models.CharField(max_length=100)
+
+    class Meta:
+        verbose_name_plural = "Reservaciones"
     
     def __str__(self):
         return self.id

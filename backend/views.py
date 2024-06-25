@@ -106,10 +106,15 @@ class Extras(viewsets.ViewSet):
                     "nota": evaluacion.get_nota_display(),
                     "observaciones": evaluacion.observaciones
                 })
+            criterios_data = []
+            criterios = CriterioConstructivo.objects.filter(local=local.id)
+            for criterio in criterios:
+                criterios_data.append(criterio.nombre)
             local_data.append({
                 "id_local": local.id,
                 "nombre_local": local.nombre,
-                "criterios_constructivos": evaluaciones_data,
+                "criterios": criterios_data,
+                "evaluaciones": evaluaciones_data,
                 "sublocales": sublocales_data
             })
 
