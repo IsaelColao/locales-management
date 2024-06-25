@@ -54,9 +54,12 @@ class Extras(viewsets.ViewSet):
     def get_all_information(self, request):
         """
             Devuelve de forma organizada todas las informaciones, desde la sede hasta los sublocales
+            De querer devolver datos de solo una sede pasar id por parámetro
+            Ejemplo :http://127.0.0.1:8000/api/Extras/get_all_information/?sede_id=1
         """
         try:
-            sedes = Sede.objects.all()
+            sede_id = request.query_params.get("sede_id")
+            sedes = Sede.objects.all() if sede_id is None else Sede.objects.filter(id=sede_id)
             sede_data = []
 
             for sede in sedes:
@@ -85,6 +88,7 @@ class Extras(viewsets.ViewSet):
             return JsonResponse(sede_data, safe=False)
         except Exception as e:
             return JsonResponse({"error":str(e)}, status=500)
+
 
 
     def get_local_data(self, locales):
