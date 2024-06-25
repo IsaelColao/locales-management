@@ -118,7 +118,7 @@ class Evaluacion(models.Model):
         verbose_name_plural = "Evaluaciones"
     
     def __str__(self):
-        return f"{self.local.nombre} - {self.fecha}"
+        return f"{self.local.nombre} - {self.criterio.nombre} - {self.fecha}"
     
 class Reservacion (models.Model):
     id = models.AutoField(primary_key=True)
