@@ -107,7 +107,7 @@ class Evaluacion(models.Model):
         "M": "Mal",
     }
 
-    local = models.ForeignKey(Local, on_delete=models.PROTECT)
+    local = models.ForeignKey(Local, on_delete=models.CASCADE)
     criterio = models.ForeignKey(CriterioConstructivo, on_delete=models.PROTECT)
     fecha = models.DateField()
     nota = models.CharField(max_length=1, choices=NOTAS, default="R")
