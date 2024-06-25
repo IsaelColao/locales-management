@@ -133,7 +133,7 @@ class Reservacion (models.Model):
         verbose_name_plural = "Reservaciones"
     
     def __str__(self):
-        return self.id
+        return f"{self.nombre} - {self.local.nombre}"
     
 #No creo q sea así esto
 class Usuario (models.Model):
