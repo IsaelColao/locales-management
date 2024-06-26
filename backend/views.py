@@ -109,7 +109,8 @@ class Extras(viewsets.ViewSet):
             criterios_data = []
             criterios = CriterioConstructivo.objects.filter(local=local.id)
             for criterio in criterios:
-                criterios_data.append(criterio.nombre)
+                if criterio.nombre not in criterios_data:
+                    criterios_data.append(criterio.nombre) 
             local_data.append({
                 "id_local": local.id,
                 "nombre_local": local.nombre,
